@@ -1,8 +1,5 @@
 package com.johnny.teste.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,7 +9,6 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import java.util.Objects;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -27,7 +23,7 @@ public class User {
     public static final String TABLE_NAME = "user";
     
     @Id
-    @GeneratedValue(generator = "seq_user", strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id", unique = true)
     private Long id;
 
@@ -37,7 +33,7 @@ public class User {
     @Size(groups = CreateUser.class, min = 2, max = 100)
     private String username;
 
-    @JsonProperty(access = Access.WRITE_ONLY)
+    @JsonProperty(access = Access.WRITE_ONLY) // para não retornar a senha, apenas escrever
     @Column(name = "password", length = 60, nullable = false)
     @NotNull(groups = {CreateUser.class, UpdateUser.class})
     @NotEmpty(groups = {CreateUser.class, UpdateUser.class})
