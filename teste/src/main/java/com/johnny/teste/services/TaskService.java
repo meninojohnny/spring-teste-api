@@ -1,5 +1,6 @@
 package com.johnny.teste.services;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,7 +32,7 @@ public class TaskService {
         obj.setId(null);
         obj.setUser(user);
         obj = this.taskRepository.save(obj);
-        return obj; 
+        return obj;
     }
 
     @Transactional
@@ -42,13 +43,17 @@ public class TaskService {
         
     }
 
-    public void delete(Task obj) {
-        findById(obj.getId());
+    public void delete(Long id) {
+        findById(id);
         try {
-            this.taskRepository.deleteById(obj.getId());
+            this.taskRepository.deleteById(id);
         } catch (Exception e) {
             throw new RuntimeException("Não foi possivel exlcuir pois há entidades relacionadas");
         }
-    } 
+    }
+
+    public List<Task> findAllByUserId(Long userId) {
+        return this.taskRepository.findByUser_Id(userId);
+    }
 
 }
